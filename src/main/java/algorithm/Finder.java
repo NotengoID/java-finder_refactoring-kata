@@ -3,51 +3,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Finder {
-	private final List<Thing> _p;
 
-	public Finder(List<Thing> p) {
-		_p = p;
-	}
+    private final List<Person> people;
 
-	public F Find(FT ft) {
-		List<F> tr = new ArrayList<F>();
+    public Finder(List<Person> people) {
+        this.people = people;
+    }
 
-		for (int i = 0; i < _p.size() - 1; i++) {
-			for (int j = i + 1; j < _p.size(); j++) {
-				F r = new F();
-				if (_p.get(i).birthDate.getTime() < _p.get(j).birthDate.getTime()) {
-					r.P1 = _p.get(i);
-					r.P2 = _p.get(j);
-				} else {
-					r.P1 = _p.get(j);
-					r.P2 = _p.get(i);
-				}
-				r.D = r.P2.birthDate.getTime() - r.P1.birthDate.getTime();
-				tr.add(r);
-			}
-		}
+    public Couple findCouple(Criteria criteria) {
 
-		if (tr.size() < 1) {
-			return new F();
-		}
+        List<Couple> couples = new ArrayList<>();
 
-		F answer = tr.get(0);
-		for (F result : tr) {
-			switch (ft) {
-				case One :
-					if (result.D < answer.D) {
-						answer = result;
-					}
-					break;
+        for (int i = 0; i < this.people.size() - 1; i++) {
+            for (int j = i + 1; j < this.people.size(); j++) {
 
-				case Two :
-					if (result.D > answer.D) {
-						answer = result;
-					}
-					break;
-			}
-		}
+                Couple r = new Couple(this.people.get(i),this.people.get(j));
+                couples.add(r);
+            }
+        }
 
-		return answer;
-	}
+        if (couples.size() < 1) {
+            return new Couple(null,null);
+        }
+
+        Couple answer = couples.get(0);
+
+        for (Couple couple : couples) {
+            switch (criteria) {
+                case Closest:
+                    if (couple.isCloserThan(answer)) {
+                        answer = couple;
+                    }
+                    break;
+
+                case Furthest:
+                    if (couple.isFurthestThan(answer)) {
+                        answer = couple;
+                    }
+                    break;
+            }
+        }
+
+        return answer;
+    }
 }
