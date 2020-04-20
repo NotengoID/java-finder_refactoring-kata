@@ -15,6 +15,8 @@ public class Person {
         this.birthDate = birthDate;
     }
 
+    public static int compare(Person p1, Person p2){ return p1.isOlderThan(p2)?-1:1; }
+
     public boolean isOlderThan(Person p){
         return birthDate.isBefore(p.birthDate);
     }

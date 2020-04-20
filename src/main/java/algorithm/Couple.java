@@ -17,6 +17,8 @@ public class Couple {
 
     }
 
+    public static int compare(Couple c1, Couple c2){ return (c1.getDistance() < c2.getDistance())?-1:1; }
+
     public Person getOlder(){
         return older;
     }
@@ -29,11 +31,4 @@ public class Couple {
         return distance;
     }
 
-    public boolean isCloserThan(Couple c){
-        return distance < c.getDistance();
-    }
-
-    public boolean isFurthestThan(Couple c){
-        return distance > c.getDistance();
-    }
 }

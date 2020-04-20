@@ -1,49 +1,53 @@
 package algorithm;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Finder {
 
     private final List<Person> people;
+    private Couple easyAnswer = null;
 
     public Finder(List<Person> people) {
+
         this.people = people;
+
+        if (people.size() < 2) {
+            this.easyAnswer = new Couple(null,null);
+        }if(people.size() == 2){
+            this.easyAnswer = new Couple(people.get(0),people.get(1));
+        }
+
     }
 
-    public Couple findCouple(Criteria criteria) {
+    public Couple findClosestCouple() {
 
-        List<Couple> couples = new ArrayList<>();
+        if(easyAnswer != null){ return easyAnswer; }
 
-        for (int i = 0; i < this.people.size() - 1; i++) {
-            for (int j = i + 1; j < this.people.size(); j++) {
+        List<Person> sortedPeople = people.stream()
+                .sorted(Person::compare)
+                .collect(Collectors.toList());
 
-                Couple r = new Couple(this.people.get(i),this.people.get(j));
-                couples.add(r);
-            }
-        }
+        Couple closestCouple = IntStream.range(0,sortedPeople.size()-2)
+            .mapToObj( p -> new Couple(sortedPeople.get(p),sortedPeople.get(p+1)))
+            .min(Couple::compare).get();
 
-        if (couples.size() < 1) {
-            return new Couple(null,null);
-        }
+        return closestCouple;
+    }
 
-        Couple answer = couples.get(0);
+    public Couple findFurthestCouple() {
 
-        for (Couple couple : couples) {
-            switch (criteria) {
-                case Closest:
-                    if (couple.isCloserThan(answer)) {
-                        answer = couple;
-                    }
-                    break;
+        if(easyAnswer != null){ return easyAnswer; }
 
-                case Furthest:
-                    if (couple.isFurthestThan(answer)) {
-                        answer = couple;
-                    }
-                    break;
-            }
-        }
+        List<Person> sortedPeople = people.stream()
+                .sorted(Person::compare)
+                .collect(Collectors.toList());
 
-        return answer;
+        Person younger = sortedPeople.get(0);
+        Person older = sortedPeople.get(sortedPeople.size()-1);
+
+        Couple furthestCouple = new Couple(younger,older);
+
+        return furthestCouple;
     }
 }

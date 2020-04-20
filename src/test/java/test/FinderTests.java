@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import algorithm.Couple;
-import algorithm.Criteria;
 import algorithm.Finder;
 import algorithm.Person;
 
@@ -34,7 +33,7 @@ public class FinderTests {
         List<Person> list = new ArrayList<>();
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Closest);
+        Couple result = finder.findClosestCouple();
         assertNull(result.getOlder());
         assertNull(result.getYounger());
     }
@@ -46,7 +45,7 @@ public class FinderTests {
 
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Closest);
+        Couple result = finder.findClosestCouple();
 
         assertNull(result.getOlder());
         assertNull(result.getYounger());
@@ -59,7 +58,7 @@ public class FinderTests {
         list.add(greg);
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Closest);
+        Couple result = finder.findClosestCouple();
 
         assertEquals(sue, result.getOlder());
         assertEquals(greg, result.getYounger());
@@ -73,7 +72,7 @@ public class FinderTests {
 
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Furthest);
+        Couple result = finder.findFurthestCouple();
 
         assertEquals(greg, result.getOlder());
         assertEquals(mike, result.getYounger());
@@ -88,7 +87,7 @@ public class FinderTests {
         list.add(greg);
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Furthest);
+        Couple result = finder.findFurthestCouple();
 
         assertEquals(sue, result.getOlder());
         assertEquals(sarah, result.getYounger());
@@ -104,7 +103,7 @@ public class FinderTests {
 
         Finder finder = new Finder(list);
 
-        Couple result = finder.findCouple(Criteria.Closest);
+        Couple result = finder.findClosestCouple();
 
         assertEquals(sue, result.getOlder());
         assertEquals(greg, result.getYounger());
