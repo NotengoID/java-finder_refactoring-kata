@@ -14,7 +14,7 @@ public class Finder {
 
         if (people.size() < 2) {
             this.easyAnswer = new Couple(null,null);
-        }if(people.size() == 2){
+        }else if(people.size() == 2){
             this.easyAnswer = new Couple(people.get(0),people.get(1));
         }
 
